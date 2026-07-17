@@ -56,7 +56,6 @@ export default function Login({ onLogin }) {
       <div className="login-card">
         <div className="login-header">
           <h1>{isSignUp ? '✨ Crear cuenta' : '🔐 Iniciar sesión'}</h1>
-          {!supabase && <p className="demo-badge">📱 Modo demo local</p>}
         </div>
 
         <form onSubmit={handleSubmit} className="login-form">
