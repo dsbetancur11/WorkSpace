@@ -4,7 +4,18 @@ import Login from './Login'
 import './App.css'
 
 function App() {
-  const [session, setSession] = useState(null)
+  const [session, setSession] = useState(() => {
+    if (typeof window === 'undefined') {
+      return null
+    }
+
+    try {
+      const stored = window.localStorage.getItem('demo-session')
+      return stored ? JSON.parse(stored) : null
+    } catch {
+      return null
+    }
+  })
 
   useEffect(() => {
     if (!supabase) {
@@ -23,7 +34,12 @@ function App() {
   }, [])
 
   const handleLogout = async () => {
-    if (!supabase) return
+    if (!supabase) {
+      window.localStorage.removeItem('demo-session')
+      setSession(null)
+      return
+    }
+
     await supabase.auth.signOut()
     setSession(null)
   }

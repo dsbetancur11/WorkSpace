@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { supabase } from './supabaseClient'
+import './Login.css'
 
 export default function Login({ onLogin }) {
   const [email, setEmail] = useState('')
@@ -14,7 +15,20 @@ export default function Login({ onLogin }) {
     setLoading(true)
 
     if (!supabase) {
-      setErrorMsg('Configura las variables VITE_SUPABASE_URL y VITE_SUPABASE_ANON_KEY.')
+      const demoSession = {
+        user: { email },
+        access_token: 'demo-token',
+        token_type: 'demo',
+      }
+
+      onLogin(demoSession)
+
+      try {
+        localStorage.setItem('demo-session', JSON.stringify(demoSession))
+      } catch {
+        // Ignorar si el navegador no permite guardar datos locales
+      }
+
       setLoading(false)
       return
     }
@@ -38,38 +52,52 @@ export default function Login({ onLogin }) {
   }
 
   return (
-    <div style={{ maxWidth: 360, margin: '40px auto', padding: 24, borderRadius: 12, boxShadow: '0 8px 24px rgba(0,0,0,0.12)' }}>
-      <h2>{isSignUp ? 'Crear cuenta' : 'Iniciar sesión'}</h2>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-        <div>
-          <label>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            style={{ width: '100%', padding: 8, marginTop: 4 }}
-          />
+    <div className="login-container">
+      <div className="login-card">
+        <div className="login-header">
+          <h1>{isSignUp ? '✨ Crear cuenta' : '🔐 Iniciar sesión'}</h1>
+          {!supabase && <p className="demo-badge">📱 Modo demo local</p>}
         </div>
-        <div>
-          <label>Contraseña</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            minLength={6}
-            style={{ width: '100%', padding: 8, marginTop: 4 }}
-          />
+
+        <form onSubmit={handleSubmit} className="login-form">
+          <div className="form-group">
+            <label>Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              placeholder="tu@email.com"
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Contraseña</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              minLength={6}
+              placeholder="Mínimo 6 caracteres"
+            />
+          </div>
+
+          {errorMsg && <div className="error-message">⚠️ {errorMsg}</div>}
+
+          <button type="submit" disabled={loading} className="btn-primary">
+            {loading ? '⏳ Procesando...' : isSignUp ? '📝 Registrarme' : '✅ Entrar'}
+          </button>
+        </form>
+
+        <div className="login-footer">
+          <button onClick={() => setIsSignUp(!isSignUp)} className="btn-secondary">
+            {isSignUp
+              ? '¿Ya tienes cuenta? 👉 Inicia sesión'
+              : '¿Sin cuenta? 👉 Regístrate'}
+          </button>
         </div>
-        {errorMsg && <p style={{ color: 'crimson', margin: 0 }}>{errorMsg}</p>}
-        <button type="submit" disabled={loading}>
-          {loading ? 'Cargando...' : isSignUp ? 'Registrarme' : 'Entrar'}
-        </button>
-      </form>
-      <button onClick={() => setIsSignUp(!isSignUp)} style={{ marginTop: 12 }}>
-        {isSignUp ? '¿Ya tienes cuenta? Inicia sesión' : '¿No tienes cuenta? Regístrate'}
-      </button>
+      </div>
     </div>
   )
 }
