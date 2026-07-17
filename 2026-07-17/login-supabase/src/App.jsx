@@ -50,9 +50,23 @@ function App() {
 
   return (
     <div className="app-shell">
-      <h2>Bienvenido</h2>
-      <p>{session.user.email}</p>
-      <button onClick={handleLogout}>Cerrar sesión</button>
+      <div className="welcome-card">
+        <div className="welcome-icon">🎉</div>
+        <h1 className="welcome-title">¡Bienvenido!</h1>
+        <p className="welcome-subtitle">Sesión iniciada exitosamente</p>
+        
+        <div className="user-info">
+          <div className="user-avatar">{session.user.email.charAt(0).toUpperCase()}</div>
+          <div className="user-details">
+            <p className="user-email">{session.user.email}</p>
+            <p className="user-status">✅ Conectado</p>
+          </div>
+        </div>
+
+        <button onClick={handleLogout} className="btn-logout">
+          🚪 Cerrar sesión
+        </button>
+      </div>
     </div>
   )
 }
