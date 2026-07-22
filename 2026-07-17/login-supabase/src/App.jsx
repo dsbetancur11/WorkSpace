@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from './supabaseClient'
 import Login from './Login'
+import Productos from './Productos'
 import './App.css'
 
 function App() {
@@ -67,6 +68,8 @@ function App() {
           🚪 Cerrar sesión
         </button>
       </div>
+
+      <Productos session={session} />
     </div>
   )
 }
