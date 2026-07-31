@@ -1,0 +1,190 @@
+:root {
+  color-scheme: light;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #eef4ff;
+  color: #1f2937;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #eef4ff;
+}
+
+.app-shell {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 32px 20px 48px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 24px;
+  font-size: clamp(2rem, 2.5vw, 2.6rem);
+}
+
+.student-form,
+.summary-card {
+  background: #fff;
+  border-radius: 22px;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.08);
+  padding: 28px;
+  margin-bottom: 24px;
+}
+
+.student-form {
+  display: grid;
+  gap: 18px;
+}
+
+.form-group,
+.range-group,
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+label {
+  font-weight: 600;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='password'],
+input[type='number'],
+input[type='date'],
+input[type='file'],
+select,
+textarea,
+input[type='color'] {
+  width: 100%;
+  border: 1px solid #d2d6dc;
+  border-radius: 14px;
+  padding: 12px 14px;
+  background: #f8fafc;
+  font: inherit;
+  color: #111827;
+}
+
+input[type='range'] {
+  width: 100%;
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+  margin-right: 10px;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 96px;
+}
+
+.range-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.checkbox-list {
+  display: grid;
+  gap: 10px;
+  padding-left: 4px;
+}
+
+fieldset {
+  border: 1px solid #d2d6dc;
+  border-radius: 18px;
+  padding: 18px 18px 14px;
+}
+
+legend {
+  padding: 0 8px;
+  font-weight: 700;
+}
+
+.form-group > label > input {
+  margin-right: 10px;
+}
+
+button.submit-button {
+  border: none;
+  border-radius: 16px;
+  background: #4f46e5;
+  color: #fff;
+  padding: 14px 18px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+button.submit-button:disabled {
+  background: #a5b4fc;
+  cursor: not-allowed;
+}
+
+button.submit-button:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+
+.error {
+  margin: 0;
+  color: #b91c1c;
+  font-size: 0.94rem;
+}
+
+.photo-preview {
+  margin-top: 12px;
+  max-width: 180px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #d2d6dc;
+}
+
+.photo-preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.summary-card h2 {
+  margin-top: 0;
+  font-size: 1.4rem;
+}
+
+.summary-grid {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.summary-comments {
+  grid-column: 1 / -1;
+}
+
+.color-chip {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid #d1d5db;
+  vertical-align: middle;
+}
+
+@media (max-width: 720px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
