@@ -59,11 +59,7 @@ function Reloj() {
         return s + 1;
       });
     }, 1000);
-
-    return () => {
-      console.log('⏰ Reloj desmontado / cleanup del intervalo');
-      clearInterval(id);
-    };
+    return () => clearInterval(id);
   }, []);
 
   return <p>Segundos: {segundos}</p>;
@@ -74,16 +70,17 @@ function ContadorAutomatico() {
 
   useEffect(() => {
     const id = setInterval(() => {
-      console.log('El contador según el efecto es:', contador);
-      setContador((valorActual) => {
-        const siguiente = valorActual + 1;
-        console.log('valor real vs valor del efecto:', { valorActual, siguiente, contador });
-        return siguiente;
+      // 🐛 BUG 2 — 'contador' quedó "congelado" en el valor que tenía
+      // cuando el efecto se creó (stale closure), porque el arreglo de
+      // dependencias está vacío pero acá adentro se lee 'contador'
+      // directamente en vez de usar la forma funcional de setState.
+      setContador((contador) => {
+        console.log('El contador según el efecto es:', contador + 1);
+        return contador + 1;
       });
     }, 1000);
-
     return () => clearInterval(id);
-  }, [contador]);
+  }, []);
 
   return <p>Contador: {contador}</p>;
 }
@@ -101,12 +98,8 @@ function RastreadorVentana() {
       console.log('Resize detectado, ancho:', window.innerWidth);
       setAncho(window.innerWidth);
     }
-
     window.addEventListener('resize', manejarResize);
-
-    return () => {
-      window.removeEventListener('resize', manejarResize);
-    };
+    return () => window.removeEventListener('resize', manejarResize);
   }, []);
 
   return <p>Ancho actual: {ancho}px</p>;
